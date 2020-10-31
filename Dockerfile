@@ -1,6 +1,6 @@
 FROM    ajoergensen/baseimage-ubuntu
 
-LABEL	maintainer="Rizal Fauzie Ridwan <rizal@fauzie.my.id>"
+LABEL	maintainer="Rizal Fauzie Ridwan <rizal@fauzie.my.id>  "
 
 ENV     PHP_VERSION=7.3 \
         VIRTUAL_HOST=$DOCKER_HOST \
