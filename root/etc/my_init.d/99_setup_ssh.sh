@@ -11,7 +11,6 @@ usermod -s /bin/bash app
 
 # update SSH Configuration
 sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin no/' /etc/ssh/sshd_config
-sed -ri 's/^#?RSAAuthentication\s+.*/RSAAuthentication yes/' /etc/ssh/sshd_config
 sed -ri 's/^#?PubkeyAuthentication\s+.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 sed -ri 's/^#?AuthorizedKeysFile\s+.*/AuthorizedKeysFile \/var\/www\/.ssh\/authorized_keys/' /etc/ssh/sshd_config
 sed -ri 's/^#HostKey \/etc\/ssh_host_rsa_key/HostKey \/etc\/ssh\/ssh_host_rsa_key/' /etc/ssh/sshd_config
