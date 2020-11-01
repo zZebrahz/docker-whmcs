@@ -23,6 +23,6 @@ RUN     chmod -v +x /etc/my_init.d/*.sh /etc/service/*/run
 
 RUN     dpkg-reconfigure openssh-server
 
-EXPOSE  2222
+EXPOSE  80
 
 WORKDIR /var/www/whmcs
