@@ -9,6 +9,13 @@ mkdir -p /var/run/sshd
 usermod -d /var/www app
 usermod -s /bin/bash app
 
+if [[ ! -e /etc/service/sshd/down && ! -e /etc/ssh/ssh_host_rsa_key ]] || [[ "$1" == "-f" ]]; then
+	echo "No SSH host key available. Generating one..."
+	export LC_ALL=C
+	export DEBIAN_FRONTEND=noninteractive
+	dpkg-reconfigure openssh-server
+fi
+
 if [[ $SSH_PUBLIC_KEY != "" ]]
 then
     sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication no/' /etc/ssh/sshd_config
