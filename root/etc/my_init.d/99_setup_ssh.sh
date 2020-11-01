@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ 
 shopt -s nocasematch
 : ${APP_PASSWORD:=""}
 : ${SSH_PUBLIC_KEY:=""}
