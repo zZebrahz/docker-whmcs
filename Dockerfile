@@ -21,6 +21,8 @@ COPY    --from=ajoergensen/baseimage-ubuntu /etc/service/. /etc/service/
 
 RUN     chmod -v +x /etc/my_init.d/*.sh /etc/service/*/run
 
+RUN     dpkg-reconfigure openssh-server
+
 EXPOSE  2222
 
 WORKDIR /var/www/whmcs
