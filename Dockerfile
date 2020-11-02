@@ -24,7 +24,7 @@ RUN     chmod -v +x /etc/my_init.d/*.sh /etc/service/*/run
 RUN     dpkg-reconfigure openssh-server
 
 # Set default php-cli version to match $PHP_VERSION
-RUN     update-alternatives --set php /usr/bin/php$PHP_VERSION
+RUN     update-alternatives --set php /usr/bin/php7.3
 
 EXPOSE  80
 
