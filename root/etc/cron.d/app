@@ -9,8 +9,8 @@
 # - Ticket Importing using POP3 Import every 5 minutes
 #
 # m h d m w                         user  command
-php73 -q /var/www/whmcs/crons/cron.php skip --TicketEscalations --AutoSuspensions >/dev/null 2>&1
-php73 -q /var/www/whmcs/crons/cron.php do --TicketEscalations >/dev/null 2>&1
-php73 -q /var/www/whmcs/crons/cron.php do --AutoSuspensions >/dev/null 2>&1
-php73 -q /var/www/whmcs/crons/pop.php >/dev/null 2>&1
-php73 -q /var/www/whmcs/crons/domainsync.php >/dev/null 2>&1
+php -q /var/www/whmcs/crons/cron.php skip --TicketEscalations --AutoSuspensions >/dev/null 2>&1
+php -q /var/www/whmcs/crons/cron.php do --TicketEscalations >/dev/null 2>&1
+php -q /var/www/whmcs/crons/cron.php do --AutoSuspensions >/dev/null 2>&1
+php -q /var/www/whmcs/crons/pop.php >/dev/null 2>&1
+php -q /var/www/whmcs/crons/domainsync.php >/dev/null 2>&1
