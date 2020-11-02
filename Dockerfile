@@ -2,7 +2,7 @@ FROM    ajoergensen/baseimage-ubuntu
 
 LABEL	maintainer="RXWatcher"
 
-ENV     PHP_VERSION=7.4 \
+ENV     PHP_VERSION=7.3 \
         VIRTUAL_HOST=$DOCKER_HOST \
         HOME=/var/www/whmcs \
         PUID=1000 \
@@ -22,6 +22,9 @@ COPY    --from=ajoergensen/baseimage-ubuntu /etc/service/. /etc/service/
 RUN     chmod -v +x /etc/my_init.d/*.sh /etc/service/*/run
 
 RUN     dpkg-reconfigure openssh-server
+
+# Set default php-cli version to match $PHP_VERSION
+update-alternatives --set php /usr/bin/php$PHP_VERSION
 
 EXPOSE  80
 
