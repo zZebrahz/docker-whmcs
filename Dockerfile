@@ -12,7 +12,7 @@ ENV     PHP_VERSION=7.3 \
         REAL_IP_FROM=172.17.0.0/16 \
         SSH_PORT=2222
 
-COPY    build/ /build
+ADD    build/ /build
 
 RUN     build/setup.sh && rm -rf /build
 
