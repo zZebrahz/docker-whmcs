@@ -2,7 +2,7 @@ FROM    ajoergensen/baseimage-ubuntu
 
 LABEL	maintainer="RXWatcher"
 
-ENV     PHP_VERSION=7.3 \
+ENV     PHP_VERSION=7.4 \
         VIRTUAL_HOST=$DOCKER_HOST \
         HOME=/var/www/whmcs \
         PUID=1000 \
@@ -24,7 +24,7 @@ RUN     chmod -v 700 /etc/cron.d/app
 RUN     dpkg-reconfigure openssh-server
 
 # Set default php-cli version to match $PHP_VERSION
-RUN     update-alternatives --set php /usr/bin/php7.3
+RUN     update-alternatives --set php /usr/bin/php7.4
 
 EXPOSE  80
 
