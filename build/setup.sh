@@ -8,12 +8,12 @@ add-apt-repository -y ppa:ondrej/php
 wget -q http://nginx.org/packages/keys/nginx_signing.key
 cat nginx_signing.key | sudo apt-key add -
 add-apt-repository 'deb http://nginx.org/packages/ubuntu/ xenial nginx'
-
+add-apt-repository 'deb http://security.ubuntu.com/ubuntu bionic-security main'
 # Update installed packages
 apt-get -y update
-
+apt-cache policy libssl1.0-dev
 # Install nginx and PHP
-apt-get -y install nginx php$PHP_VERSION-fpm php$PHP_VERSION-mysql php$PHP_VERSION-common \
+apt-get -y install openssl libssl1.0-dev nginx php$PHP_VERSION-fpm php$PHP_VERSION-mysql php$PHP_VERSION-common php$PHP_VERSION-soap \
 	php-imagick php-igbinary php-redis php$PHP_VERSION-bcmath php$PHP_VERSION-opcache \
 	php$PHP_VERSION-enchant php$PHP_VERSION-gd php$PHP_VERSION-imap php$PHP_VERSION-intl \
 	php$PHP_VERSION-json php$PHP_VERSION-xml php$PHP_VERSION-xmlrpc php-pear \
