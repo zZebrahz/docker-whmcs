@@ -46,21 +46,15 @@ server {
 
 	location / {
 		try_files $uri $uri/ /index.php;
-
-		# Announcements
-		rewrite ^/announcements/([0-9]+)/[a-zA-Z0-9-]+.html$ /./announcements.php?id=$1 last;
-		rewrite ^/announcements$ /./announcements.php last;
-
-		# Downloads
-		rewrite ^/download/([0-9]+)/([^/]*)$ /./downloads.php?action=displaycat&catid=$1 last;
-		rewrite ^/download$ /./downloads.php last;
-
-		# Knowledgebase
-		rewrite ^/knowledgebase/([0-9]+)/[a-zA-Z0-9-]+.html$ /./knowledgebase.php?action=displayarticle&id=$1 last;
-		rewrite ^/knowledgebase/([0-9]+)/([^/]*)$ /./knowledgebase.php?action=displaycat&catid=$1 last;
-		rewrite ^/knowledgebase$ /./knowledgebase.php last;
 	}
-
+     #== WHMCS Admin Area
+    location ~ /admin/(client!\.php|client/(.*)|search!\.php|search/(.*)|apps|billing|setup|user|services|addons|domains|utilities|logs|help!\.php|help/license|image/(recent|upload))/?(.*)$ {
+      rewrite ^/(.*)$ /admin/index.php?rp=/admin/$1/$2;
+  }
+     #== WHMCS Client Area
+    location ~ /(images/em|invoice|login|password|account|store|download|knowledgebase|project_management|announcements|clientarea/ssl-certificates|user/(verification|accounts|profile|password|security|verify)|cart/(domain/renew)|cart/order|images/kb)/?(.*)$ {
+      rewrite ^/(.*)$ /index.php?rp=/$1/$2;
+  }
 	location ~ \.php$ {
 		fastcgi_index   index.php;
 		fastcgi_pass    unix:/run/php/php-fpm{{ .Env.PHP_VERSION }}.sock;
@@ -83,9 +77,5 @@ server {
 		add_header Pragma public;
 		add_header Cache-Control "public, must-revalidate, proxy-revalidate";
 		add_header Vary "Accept-Encoding";
-	}
-
-	location ~ /(\.|bower.json|composer.json|LICENSE|package.json|gulpfile.js) {
-		deny all;
 	}
 }
