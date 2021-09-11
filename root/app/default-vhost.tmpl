@@ -50,11 +50,12 @@ server {
      #== WHMCS Admin Area
     location ~ /admin/(client!\.php|client/(.*)|search!\.php|search/(.*)|apps|billing|setup|user|services|addons|domains|utilities|logs|help!\.php|help/license|image/(recent|upload))/?(.*)$ {
       rewrite ^/(.*)$ /admin/index.php?rp=/admin/$1/$2;
-  }
+    }
      #== WHMCS Client Area
-    location ~ /(images/em|invoice|login|password|account|store|download|knowledgebase|project_management|announcements|clientarea/ssl-certificates|user/(verification|accounts|profile|password|security|verify)|cart/(domain/renew)|cart/order|images/kb)/?(.*)$ {
+    #== WHMCS Client Area
+    location ~ /(images/em|login|password|account|store|download|knowledgebase|project_management|announcements|clientarea/ssl-certificates|user/(verification|accounts|profile|password|security|verify)|cart/(domain/renew)|cart/order|images/kb)/?(.*)$ {
       rewrite ^/(.*)$ /index.php?rp=/$1/$2;
-  }
+    }
 	location ~ \.php$ {
 		fastcgi_index   index.php;
 		fastcgi_pass    unix:/run/php/php-fpm{{ .Env.PHP_VERSION }}.sock;
