@@ -44,17 +44,12 @@ server {
 	add_header X-XSS-Protection "1; mode=block";
 	add_header X-Content-Type-Options "nosniff";
 
-	location / {
-		try_files $uri $uri/ /index.php;
-	}
-     #== WHMCS Admin Area
-    location ~ /admin/(client!\.php|client/(.*)|search!\.php|search/(.*)|apps|billing|setup|user|services|addons|domains|utilities|logs|help!\.php|help/license|image/(recent|upload))/?(.*)$ {
-      rewrite ^/(.*)$ /admin/index.php?rp=/admin/$1/$2;
-    }
-    #== WHMCS Client Area
-    location ~ /(images/em|login|password|account|store|download|knowledgebase|project_management|announcements|clientarea/ssl-certificates|user/(verification|accounts|profile|password|security|verify)|cart/(domain/renew)|cart/order|images/kb)/?(.*)$ {
-      rewrite ^/(.*)$ /index.php?rp=/$1/$2;
-    }
+     location / {
+		try_files $uri $uri/ /index.php?$query_string;
+     }
+     location = /favicon.ico { access_log off; log_not_found off; }
+     location = /robots.txt  { access_log off; log_not_found off; }
+
 	location ~ \.php$ {
 		fastcgi_index   index.php;
 		fastcgi_pass    unix:/run/php/php-fpm{{ .Env.PHP_VERSION }}.sock;
@@ -67,15 +62,37 @@ server {
         fastcgi_intercept_errors on;
 	}
 
-	if ($request_method !~ ^(GET|HEAD|POST)$ ) {
-		return 405;
-	}
 
-	location ~* \.(css|js|png|jpe?g|gif|ico|woff|otf|ttf|eot|svg|txt|pdf|docx?|xlsx?)$ {
-		expires max;
+    location ~ /\.(?!well-known).* {
+		deny all;
+    }
+  
+    location ^~ /vendor/ {
+	        deny all;
+		return 403;
+    }
+
+    location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc|svg|woff|woff2|ttf)\$ {
+		expires 1M;
 		access_log off;
-		add_header Pragma public;
-		add_header Cache-Control "public, must-revalidate, proxy-revalidate";
-		add_header Vary "Accept-Encoding";
-	}
+	        add_header Cache-Control "public";
+    }
+  
+    location ~* \.(?:css|js)\$ {
+          expires 7d;
+          access_log off;
+          add_header Cache-Control "public";
+    }
+
+    location ~ /\.ht {
+		deny  all;
+    }
+
+    location ~ /admin/(search|apps|billing|setup|user|services|addons|domains|utilities|help!\.php|help/license|image/(recent|upload))/?(.*)$ {
+		rewrite ^/(.*)$ /admin/index.php?rp=/admin/$1/$2;
+    }
+
+    location ~ /(login|password|account|store|download|knowledgebase|announcements|clientarea/ssl-certificates|user/(profile|password|security)|cart/(domain/renew)|images/kb)/?(.*)$ {
+                rewrite ^/(.*)$ /index.php?rp=/$1/$2;
+    }
 }
