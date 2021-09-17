@@ -88,7 +88,7 @@ server {
 		deny  all;
     }
 
-    location ~ /admin/(search|apps|billing|setup|user|services|addons|domains|utilities|help!\.php|help/license|image/(recent|upload))/?(.*)$ {
+    location ~ /admin/(login|search|apps|billing|setup|user|services|addons|domains|utilities|help!\.php|help/license|image/(recent|upload))/?(.*)$ {
 		rewrite ^/(.*)$ /admin/index.php?rp=/admin/$1/$2;
     }
 
