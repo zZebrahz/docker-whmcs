@@ -2,6 +2,9 @@ FROM    ajoergensen/baseimage-ubuntu
 
 LABEL	maintainer="RXWatcher"
 
+ARG     TARGETARCH
+ENV     TA=${TARGETARCH}
+
 ENV     PHP_VERSION=7.4 \
         VIRTUAL_HOST=$DOCKER_HOST \
         HOME=/var/www/whmcs \
@@ -12,11 +15,17 @@ ENV     PHP_VERSION=7.4 \
         REAL_IP_FROM=172.17.0.0/16 \
         SSH_PORT=2222
 
-ADD    build/ /build
+COPY    build/ /build
 
-RUN     build/setup.sh && rm -rf /build
+RUN     build/${TA}_setup.sh && rm -rf /build
 
-COPY    root/ /
+COPY    root/app /app
+COPY    root/etc/cron.d/ /etc/cron.d/
+COPY    root/etc/my_init.d/ /etc/my_init.d/
+COPY    root/etc/nginx/ /etc/nginx/
+COPY    root/etc/service/nginx/ /etc/service/nginx/
+COPY    root/etc/service/php-fpm/ /etc/service/php-fpm/
+COPY    root/etc/ssh/ /etc/ssh/
 COPY    --from=ajoergensen/baseimage-ubuntu /etc/service/. /etc/service/
 
 RUN     chmod -v +x /etc/my_init.d/*.sh /etc/service/*/run
